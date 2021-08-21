@@ -19,6 +19,7 @@ objc_selector_group! {
 type DataTaskResult = Result<(StrongCell<NSData>,StrongCell<NSURLResponse>),(StrongCell<NSError>,Option<StrongCell<NSURLResponse>>)>;
 
 
+
 blocksr::once_escaping!(DataTaskCompletionHandler(data: *const NSData, response: *const NSURLResponse, error: *const NSError) -> ());
 unsafe impl Arguable for &DataTaskCompletionHandler {}
 #[allow(non_snake_case)]
@@ -50,42 +51,14 @@ impl NSURLSession {
     }
     #[cfg(feature="async")]
     pub async fn dataTaskWithRequest(&self,request: &NSURLRequest, pool: &ActiveAutoreleasePool) -> DataTaskResult {
-        use std::mem::MaybeUninit;
         use blocksr::continuation::Continuation;
-        let mut completion: Box<MaybeUninit<blocksr::continuation::Completer<DataTaskResult>>> = Box::new(MaybeUninit::uninit());
-        //block must be declared first, so we can pass it to NSURLSession.
-        //But it needs completion...
-        //This should be fine, right?
-        let completion_untracked = (&mut *completion) as *mut _;
-        let block = unsafe{ DataTaskCompletionHandler::new(|data,response,error| {
-            let completion_arg = if error.is_null() {
-                let data = NSData::assume_nonnil(data).retain();
-                let response = NSURLResponse::assume_nonnil(response).retain();
-                Ok((data,response))
-            }
-            else {
-                let error = NSError::assume_nonnil(error).retain();
-                let response = NSURLResponse::nullable(response).retain();
-                Err((error,response))
-            };
-            //safe because we should have set completion before calling resume
-            (*completion).assume_init().complete(completion_arg);
-        })};
-        let mut task = unsafe {
-            let task = Self::perform_autorelease_to_retain(self.assume_nonmut_perform(),Sel::dataTaskWithRequest_completionHandler(), pool, (request, &block));
-            NSURLSessionDataTask::assume_nonnil(task).assume_retained().assume_mut()
-        };
-
-        let continuation = Continuation::new(move |completer| {
-            //set completion before calling resume
-            unsafe{ *completion_untracked = MaybeUninit::new(completer) }
-            //unclear if an autorelease pool is active here
-            let pool = AutoreleasePool::new();
-            task.resume(&pool);
-
+        let (mut completion, completer) = Continuation::new();
+        let mut foundation_task = self.dataTaskWithRequestCompletionHandler(request, pool, |arg| {
+            completer.complete(arg);
         });
-        continuation.await
-
+        foundation_task.resume(pool);
+        completion.accept(TaskDropper(foundation_task));
+        completion.await
     }
 }
 
@@ -97,6 +70,7 @@ objc_class! {
 objc_selector_group! {
     pub trait NSURLSessionDataTaskSelectors {
         @selector("resume")
+        @selector("cancel")
     }
     impl NSURLSessionDataTaskSelectors for Sel {}
 }
@@ -105,6 +79,19 @@ impl NSURLSessionDataTask {
         unsafe{
             let _:() = Self::perform_primitive(self, Sel::resume(), pool, ());
         }
+    }
+    pub fn cancel(&mut self, pool: &ActiveAutoreleasePool) {
+        unsafe{
+            let _:() = Self::perform_primitive(self, Sel::cancel(), pool, ());
+        }
+    }
+}
+
+struct TaskDropper (StrongMutCell<NSURLSessionDataTask>);
+impl Drop for TaskDropper {
+    fn drop(&mut self) {
+        let pool = AutoreleasePool::new();
+        self.0.cancel(&pool)
     }
 }
 
