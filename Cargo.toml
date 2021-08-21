@@ -1,0 +1,19 @@
+[package]
+name = "foundationr"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+nsurl = []
+nsdata = []
+nsurlresponse = []
+nsurlrequest = ["nsurl","nsdata"]
+nsurlsession = ["nsurlrequest","nsurlresponse"]
+# enable async methods
+async = ["blocksr/continuation"]
+[dependencies]
+objr = {path = "../objr"}
+blocksr = {path = "../blocksr"}
+[dev-dependencies]
+kiruna = {path = "../kiruna",features=["test"]}
