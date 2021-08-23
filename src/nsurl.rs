@@ -21,7 +21,7 @@ impl NSURL {
 }
 
 #[test] fn from_string() {
-    let pool = AutoreleasePool::new();
+    let pool = unsafe{ AutoreleasePool::new() };
     let url = NSURL::from_string(objc_nsstring!("https://sealedabstract.com"), &pool).unwrap();
     assert!(url.description(&pool).to_str(&pool).starts_with("https://sealedabstract.com"));
 }

@@ -90,14 +90,14 @@ impl NSURLSessionDataTask {
 struct TaskDropper (StrongMutCell<NSURLSessionDataTask>);
 impl Drop for TaskDropper {
     fn drop(&mut self) {
-        let pool = AutoreleasePool::new();
+        let pool = unsafe{AutoreleasePool::new()};
         self.0.cancel(&pool)
     }
 }
 
 
 #[test] fn test_session() {
-    let pool = AutoreleasePool::new();
+    let pool = unsafe{ AutoreleasePool::new() };
     let a = NSURLSession::shared(&pool);
     println!("{}",a);
 }
@@ -106,11 +106,11 @@ impl Drop for TaskDropper {
 #[test] fn test_request() {
     use super::{NSMutableURLRequest,NSURL};
 
-    let pool = AutoreleasePool::new();
+    let pool = unsafe{ AutoreleasePool::new() };
     let session = NSURLSession::shared(&pool);
-    let request = NSMutableURLRequest::with_url(&NSURL::from_string(objc_nsstring!("https://sealedabstract.com"),&pool).unwrap(),&pool);
+    let request = NSMutableURLRequest::from_url(&NSURL::from_string(objc_nsstring!("https://sealedabstract.com"),&pool).unwrap(),&pool);
     let immutable_request = request.as_immutable();
     let task = session.dataTaskWithRequest(&immutable_request,&pool);
     let r = kiruna::test::test_await(task, std::time::Duration::from_secs(10));
-    println!("{}",r.unwrap().0);
+    assert_eq!(r.unwrap().1.statusCode(&pool),200);
 }

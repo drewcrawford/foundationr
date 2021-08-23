@@ -51,8 +51,8 @@ impl NSMutableURLRequest {
 }
 
 #[test] fn with_url() {
-    let pool = AutoreleasePool::new();
-    let mut request = NSMutableURLRequest::with_url(&NSURL::from_string(objc_nsstring!("https://sealedabstract.com"),&pool).unwrap(),&pool);
+    let pool = unsafe{ AutoreleasePool::new() };
+    let mut request = NSMutableURLRequest::from_url(&NSURL::from_string(objc_nsstring!("https://sealedabstract.com"),&pool).unwrap(),&pool);
     request.setValueForHTTPHeaderField(Some(objc_nsstring!("value")),objc_nsstring!("header"),&pool);
     request.setHTTPMethod(objc_nsstring!("POST"),&pool);
     let body_strong = "My body";
