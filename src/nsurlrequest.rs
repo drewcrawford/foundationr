@@ -26,7 +26,7 @@ impl NSMutableURLRequest {
     pub fn as_immutable(&self) -> &NSURLRequest {
         unsafe{ self.cast() }
     }
-    pub fn with_url(url: &NSURL, pool: &ActiveAutoreleasePool) -> StrongMutCell<Self> {
+    pub fn from_url(url: &NSURL, pool: &ActiveAutoreleasePool) -> StrongMutCell<Self> {
         unsafe{
             let uninitialized = NSMutableURLRequest::class().alloc(pool);
             Self::assume_nonnil(Self::perform(uninitialized, Sel::initWithURL_(), pool, (url,))).assume_retained().assume_mut()
