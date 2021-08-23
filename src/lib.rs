@@ -9,6 +9,8 @@ mod nsdata;
 mod types;
 #[cfg(feature="nsurlresponse")]
 mod nsurlresponse;
+mod nsstring;
+pub mod magic_string;
 
 pub use objr::foundation::*;
 pub use types::NSUInteger;
