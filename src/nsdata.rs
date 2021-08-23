@@ -8,9 +8,15 @@ objc_class! {
 objc_selector_group! {
     trait NSDataSelectors {
         @selector("initWithBytesNoCopy:length:freeWhenDone:")
+        @selector("initWithBytesNoCopy:length:deallocator:")
+        @selector("length")
+        @selector("bytes")
     }
     impl NSDataSelectors for Sel {}
 }
+
+blocksr::once_escaping!(Deallocator(ptr: *const std::ffi::c_void, length: NSUInteger) -> ());
+unsafe impl Arguable for &Deallocator {}
 impl NSData {
     ///This creates a NSData by borrowing the data argument.
     ///
@@ -23,14 +29,52 @@ impl NSData {
         let init = Self::perform(uninitialized, Sel::initWithBytesNoCopy_length_freeWhenDone(), pool, (data.as_ptr(), data.len() as NSUInteger, false));
         Self::assume_nonnil(init).assume_retained_limited()
     }
+
+    pub fn from_boxed_bytes(data: Box<[u8]>, pool: &ActiveAutoreleasePool) -> StrongCell<NSData> {
+        unsafe {
+            let uninitialized = NSData::class().alloc(pool);
+            let ptr = data.as_ptr();
+            let len = data.len() as NSUInteger;
+            //todo: I think this could be rewritten as a global block by reconstructing the box via length and pointer
+            let block = Deallocator::new(move |_ptr,_length| {
+                std::mem::drop(data);
+            });
+            let r = Self::perform(uninitialized, Sel::initWithBytesNoCopy_length_deallocator(), pool, (ptr, len, &block));
+            NSData::assume_nonnil(r).assume_retained()
+        }
+
+    }
+
+    pub fn length(&self, pool: &ActiveAutoreleasePool) -> NSUInteger {
+        unsafe {
+            Self::perform_primitive(self.assume_nonmut_perform(), Sel::length(), &pool, ())
+        }
+    }
+    pub fn as_slice(&self, pool: &ActiveAutoreleasePool) -> &[u8] {
+        unsafe {
+            let ptr: *const u8 = Self::perform_primitive(self.assume_nonmut_perform(), Sel::bytes(), &pool, ());
+            let length = self.length(&pool);
+            std::slice::from_raw_parts(ptr,length as usize)
+        }
+    }
 }
 
 #[test] fn with_borrowed_data() {
     let s = "My test string".to_owned();
-    let pool = AutoreleasePool::new();
+    let pool = unsafe{ AutoreleasePool::new() };
     unsafe{
         let data = NSData::from_borrowed_bytes(s.as_bytes(),&pool);
         println!("data {}",data);
-
+        assert_eq!(data.length(&pool),14);
+        let new_slice = data.as_slice(&pool);
+        let old_slice = s.as_bytes();
+        assert_eq!(new_slice,old_slice);
     }
+}
+
+#[test] fn with_owned_data() {
+    let data = "My test string".to_owned().into_boxed_str().into_boxed_bytes();
+    let pool = unsafe{ AutoreleasePool::new() };
+    let data = NSData::from_boxed_bytes(data, &pool);
+    println!("data {}",data);
 }
