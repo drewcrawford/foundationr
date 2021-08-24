@@ -49,17 +49,6 @@ impl NSURLSession {
             NSURLSessionDataTask::assume_nonnil(task).assume_retained().assume_mut()
         }
     }
-    #[cfg(feature="async")]
-    pub async fn dataTaskWithRequest(&self,request: &NSURLRequest, pool: &ActiveAutoreleasePool) -> DataTaskResult {
-        use blocksr::continuation::Continuation;
-        let (mut completion, completer) = Continuation::new();
-        let mut foundation_task = self.dataTaskWithRequestCompletionHandler(request, pool, |arg| {
-            completer.complete(arg);
-        });
-        foundation_task.resume(pool);
-        completion.accept(TaskDropper(foundation_task));
-        completion.await
-    }
 }
 
 objc_class! {
