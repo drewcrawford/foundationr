@@ -163,5 +163,5 @@ impl Drop for TaskDropper {
         sender.send(result).unwrap();
     });
     task.resume(&pool);
-    let r = receiver.recv_timeout(std::time::Duration::from_secs(10)).unwrap();
+    let _r = receiver.recv_timeout(std::time::Duration::from_secs(10)).unwrap();
 }

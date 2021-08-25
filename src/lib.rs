@@ -26,4 +26,4 @@ pub use nsurlrequest::NSURLRequest;
 #[cfg(feature="nsurlrequest")]
 pub use nsurlrequest::NSMutableURLRequest;
 #[cfg(feature="nsurlsession")]
-pub use nsurlsession::NSURLSession;
+pub use nsurlsession::{NSURLSession,NSURLSessionDownloadTask,NSURLSessionDataTask};
