@@ -13,7 +13,7 @@ mod nsstring;
 pub mod magic_string;
 
 pub use objr::foundation::*;
-pub use types::NSUInteger;
+pub use types::{NSUInteger,NSInteger};
 
 #[cfg(feature="nsurl")]
 pub use nsurl::NSURL;

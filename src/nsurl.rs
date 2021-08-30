@@ -1,5 +1,6 @@
 use objr::bindings::*;
 use super::NSString;
+
 objc_class! {
     pub struct NSURL {
         @class(NSURL)
