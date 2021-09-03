@@ -10,6 +10,7 @@ nsdata = []
 nsurlresponse = []
 nsurlrequest = ["nsurl","nsdata"]
 nsurlsession = ["nsurlrequest","nsurlresponse"]
+nsthread = []
 [dependencies]
 objr = {path = "../objr"}
 blocksr = {path = "../blocksr"}

@@ -11,6 +11,8 @@ mod types;
 mod nsurlresponse;
 mod nsstring;
 pub mod magic_string;
+#[cfg(feature="nsthread")]
+mod nsthread;
 
 pub use objr::foundation::*;
 pub use types::{NSUInteger,NSInteger};
@@ -27,3 +29,5 @@ pub use nsurlrequest::NSURLRequest;
 pub use nsurlrequest::NSMutableURLRequest;
 #[cfg(feature="nsurlsession")]
 pub use nsurlsession::{NSURLSession,NSURLSessionDownloadTask,NSURLSessionDataTask};
+#[cfg(feature="nsthread")]
+pub use nsthread::NSThread;
