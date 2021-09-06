@@ -15,8 +15,8 @@ nsdictionary = ["nscopying"]
 nsvalue = []
 nscopying = []
 nsnotification = []
+
+all = ["nsurl","nsdata","nsurlresponse","nsurlrequest","nsurlsession","nsthread","nsdictionary","nsvalue","nscopying", "nsnotification"]
 [dependencies]
 objr = {path = "../objr"}
 blocksr = {path = "../blocksr"}
-[dev-dependencies]
-kiruna = {path = "../kiruna",features=["test"]}
