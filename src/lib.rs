@@ -17,6 +17,8 @@ mod nsthread;
 mod nscopying;
 #[cfg(feature="nsvalue")]
 mod nsvalue;
+#[cfg(feature="nsnotification")]
+mod nsnotification;
 
 pub use objr::foundation::*;
 pub use types::{NSUInteger,NSInteger};
@@ -36,3 +38,5 @@ pub use nsurlsession::{NSURLSession,NSURLSessionDownloadTask,NSURLSessionDataTas
 #[cfg(feature="nsthread")]
 #[cfg(feature="nsvalue")]
 pub use nsvalue::NSNumber;
+#[cfg(feature="nsnotification")]
+pub use nsnotification::{NSNotification,NSNotificationName};

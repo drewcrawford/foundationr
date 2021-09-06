@@ -13,6 +13,7 @@ nsurlsession = ["nsurlrequest","nsurlresponse"]
 nsthread = []
 nsvalue = []
 nscopying = []
+nsnotification = []
 [dependencies]
 objr = {path = "../objr"}
 blocksr = {path = "../blocksr"}
