@@ -13,6 +13,8 @@ mod nsstring;
 pub mod magic_string;
 #[cfg(feature="nsthread")]
 mod nsthread;
+#[cfg(feature="nsdictionary")]
+mod nsdictionary;
 #[cfg(feature="nscopying")]
 mod nscopying;
 #[cfg(feature="nsvalue")]
@@ -36,6 +38,11 @@ pub use nsurlrequest::NSMutableURLRequest;
 #[cfg(feature="nsurlsession")]
 pub use nsurlsession::{NSURLSession,NSURLSessionDownloadTask,NSURLSessionDataTask};
 #[cfg(feature="nsthread")]
+pub use nsthread::NSThread;
+#[cfg(feature="nsdictionary")]
+pub use nsdictionary::{NSDictionary,NSDictionaryRaw};
+#[cfg(feature="nscopying")]
+pub use nscopying::NSCopying;
 #[cfg(feature="nsvalue")]
 pub use nsvalue::NSNumber;
 #[cfg(feature="nsnotification")]
