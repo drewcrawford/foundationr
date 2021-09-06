@@ -15,6 +15,8 @@ pub mod magic_string;
 mod nsthread;
 #[cfg(feature="nscopying")]
 mod nscopying;
+#[cfg(feature="nsvalue")]
+mod nsvalue;
 
 pub use objr::foundation::*;
 pub use types::{NSUInteger,NSInteger};
@@ -32,5 +34,5 @@ pub use nsurlrequest::NSMutableURLRequest;
 #[cfg(feature="nsurlsession")]
 pub use nsurlsession::{NSURLSession,NSURLSessionDownloadTask,NSURLSessionDataTask};
 #[cfg(feature="nsthread")]
-pub use nsthread::NSThread;#[cfg(feature="nscopying")]
-pub use nscopying::NSCopying;
+#[cfg(feature="nsvalue")]
+pub use nsvalue::NSNumber;

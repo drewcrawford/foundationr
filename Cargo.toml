@@ -11,6 +11,7 @@ nsurlresponse = []
 nsurlrequest = ["nsurl","nsdata"]
 nsurlsession = ["nsurlrequest","nsurlresponse"]
 nsthread = []
+nsvalue = []
 nscopying = []
 [dependencies]
 objr = {path = "../objr"}
