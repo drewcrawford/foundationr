@@ -24,6 +24,7 @@ mod nsnotification;
 
 pub use objr::foundation::*;
 pub use types::{NSUInteger,NSInteger};
+pub use nsstring::NSStringExtension;
 
 #[cfg(feature="nsurl")]
 pub use nsurl::NSURL;
