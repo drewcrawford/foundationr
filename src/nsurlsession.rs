@@ -19,7 +19,7 @@ objc_selector_group! {
     impl NSURLSessionSelectors for Sel {}
 }
 
-type DataTaskResult = Result<(StrongCell<NSData>,StrongCell<NSURLResponse>),(StrongCell<NSError>,Option<StrongCell<NSURLResponse>>)>;
+pub type DataTaskResult = Result<(StrongCell<NSData>,StrongCell<NSURLResponse>),(StrongCell<NSError>,Option<StrongCell<NSURLResponse>>)>;
 blocksr::once_escaping!(DataTaskCompletionHandler(data: *const NSData, response: *const NSURLResponse, error: *const NSError) -> ());
 unsafe impl Arguable for &DataTaskCompletionHandler {}
 

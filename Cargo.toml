@@ -18,5 +18,5 @@ nsnotification = []
 
 all = ["nsurl","nsdata","nsurlresponse","nsurlrequest","nsurlsession","nsthread","nsdictionary","nsvalue","nscopying", "nsnotification"]
 [dependencies]
-objr = {path = "../objr"}
-blocksr = {path = "../blocksr"}
+objr = {git = "https://github.com/drewcrawford/objr.git"}
+blocksr = {git = "https://github.com/drewcrawford/blocksr.git"}
