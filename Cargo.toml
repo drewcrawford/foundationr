@@ -15,6 +15,7 @@ nsdictionary = ["nscopying"]
 nsvalue = []
 nscopying = []
 nsnotification = []
+nsrange = []
 
 all = ["nsurl","nsdata","nsurlresponse","nsurlrequest","nsurlsession","nsthread","nsdictionary","nsvalue","nscopying", "nsnotification"]
 [dependencies]

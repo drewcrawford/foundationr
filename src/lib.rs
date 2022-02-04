@@ -68,6 +68,8 @@ mod nscopying;
 mod nsvalue;
 #[cfg(feature="nsnotification")]
 mod nsnotification;
+#[cfg(feature="nsrange")]
+mod nsrange;
 
 pub use objr::foundation::*;
 pub use types::{NSUInteger,NSInteger};
@@ -95,3 +97,5 @@ pub use nscopying::NSCopying;
 pub use nsvalue::NSNumber;
 #[cfg(feature="nsnotification")]
 pub use nsnotification::{NSNotification,NSNotificationName};
+#[cfg(feature="nsrange")]
+pub use nsrange::NSRange;
