@@ -70,6 +70,11 @@ mod nsvalue;
 mod nsnotification;
 #[cfg(feature="nsrange")]
 mod nsrange;
+#[cfg(feature="nsrunloop")]
+mod nsrunloop;
+#[cfg(feature="nsdate")]
+mod nsdate;
+
 
 pub use objr::foundation::*;
 pub use types::{NSUInteger,NSInteger};
@@ -99,3 +104,7 @@ pub use nsvalue::NSNumber;
 pub use nsnotification::{NSNotification,NSNotificationName};
 #[cfg(feature="nsrange")]
 pub use nsrange::NSRange;
+#[cfg(feature="nsrunloop")]
+pub use nsrunloop::NSRunLoop;
+#[cfg(feature="nsdate")]
+pub use nsdate::NSDate;

@@ -16,6 +16,8 @@ nsvalue = []
 nscopying = []
 nsnotification = []
 nsrange = []
+nsrunloop = ["nsdate"]
+nsdate = []
 
 all = ["nsurl","nsdata","nsurlresponse","nsurlrequest","nsurlsession","nsthread","nsdictionary","nsvalue","nscopying", "nsnotification"]
 [dependencies]
