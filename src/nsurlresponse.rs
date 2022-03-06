@@ -12,6 +12,9 @@ objc_selector_group! {
     }
     impl NSURLResponseSelectors for Sel {}
 }
+//type is immutable
+unsafe impl Send for NSURLResponse {}
+unsafe impl Sync for NSURLResponse {}
 #[allow(non_snake_case)]
 impl NSURLResponse {
     pub fn statusCode(&self, pool: &ActiveAutoreleasePool) -> NSUInteger {

@@ -19,11 +19,11 @@ objc_selector_group! {
     impl NSURLSessionSelectors for Sel {}
 }
 
-pub type DataTaskResult = Result<(StrongCell<NSData>,StrongCell<NSURLResponse>),(StrongCell<NSError>,Option<StrongCell<NSURLResponse>>)>;
+pub type DataTaskResult = Result<(StrongCell<NSData>,StrongCell<NSURLResponse>),(StrongMutCell<NSError>,Option<StrongCell<NSURLResponse>>)>;
 blocksr::once_escaping!(DataTaskCompletionHandler(data: *const NSData, response: *const NSURLResponse, error: *const NSError) -> ());
 unsafe impl Arguable for &DataTaskCompletionHandler {}
 
-type DownloadTaskResult = Result<(StrongCell<NSURL>,StrongCell<NSURLResponse>), (StrongCell<NSError>,Option<StrongCell<NSURLResponse>>)>;
+type DownloadTaskResult = Result<(StrongCell<NSURL>,StrongCell<NSURLResponse>), (StrongMutCell<NSError>,Option<StrongCell<NSURLResponse>>)>;
 blocksr::once_escaping!(DownloadTaskCompletionHandler(location: *const NSURL, response: *const NSURLResponse,error: *const NSError) -> ());
 unsafe impl Arguable for &DownloadTaskCompletionHandler {}
 
@@ -43,7 +43,7 @@ impl NSURLSession {
                Ok((data,response))
            }
             else {
-                let error = NSError::assume_nonnil(error).retain();
+                let error = NSError::assume_nonnil(error).retain().assume_mut();
                 let response = NSURLResponse::nullable(response).retain();
                 Err((error,response))
             };
@@ -62,7 +62,7 @@ impl NSURLSession {
                 Ok((location,response))
             }
             else {
-                let error = NSError::assume_nonnil(error).retain();
+                let error = NSError::assume_nonnil(error).retain().assume_mut();
                 let response = NSURLResponse::nullable(response).retain();
                 Err((error,response))
             };

@@ -14,6 +14,10 @@ objc_selector_group! {
     }
     impl NSURLSelectors for Sel {}
 }
+
+//immutable
+unsafe impl Send for NSURL {}
+unsafe impl Sync for NSURL {}
 #[allow(non_snake_case)]
 impl NSURL {
     pub fn from_string(str: &super::NSString, pool: &ActiveAutoreleasePool) -> Option<StrongCell<NSURL>> {

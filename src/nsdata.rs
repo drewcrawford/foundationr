@@ -5,6 +5,8 @@ objc_class! {
         @class(NSData)
     }
 }
+unsafe impl Send for NSData {}
+unsafe impl Sync for NSData {}
 objc_selector_group! {
     trait NSDataSelectors {
         @selector("initWithBytesNoCopy:length:freeWhenDone:")
