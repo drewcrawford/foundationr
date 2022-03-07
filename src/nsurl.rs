@@ -12,6 +12,7 @@ objc_selector_group! {
         @selector("absoluteString")
         @selector("path")
         @selector("initFileURLWithPath:isDirectory:")
+        @selector("initFileURLWithPath:")
     }
     impl NSURLSelectors for Sel {}
 }
@@ -33,6 +34,12 @@ impl NSURL {
             NSURL::assume_nonnil(raw).assume_retained()
         }
     }
+    pub fn initFileURLWithPath(path: &NSString, pool: &ActiveAutoreleasePool) -> StrongCell<NSURL> {
+        unsafe {
+            let raw = NSURL::perform(Self::class().alloc(pool), Sel::initFileURLWithPath_(), pool, (path,));
+            NSURL::assume_nonnil(raw).assume_retained()
+        }
+    }
     pub fn absoluteString(self: &NSURL, pool: &ActiveAutoreleasePool) -> Option<StrongCell<NSString>> {
         unsafe {
             let r = Self::perform_autorelease_to_retain(self.assume_nonmut_perform(), Sel::absoluteString(), pool, ());
@@ -45,6 +52,7 @@ impl NSURL {
             NSString::nullable(r).assume_retained()
         }
     }
+
 }
 
 #[test] fn from_string() {
@@ -58,5 +66,9 @@ impl NSURL {
         let str = objc_nsstring!("/tmp");
         let url = NSURL::initFileURLWithPath_isDirectory(str, true,pool);
         println!("{}",url);
+
+        let url2 = NSURL::initFileURLWithPath(str,pool);
+        println!("{}",url2);
     });
+
 }
