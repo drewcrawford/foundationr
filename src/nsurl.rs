@@ -11,6 +11,7 @@ objc_selector_group! {
         @selector("initWithString:")
         @selector("absoluteString")
         @selector("path")
+        @selector("initFileURLWithPath:isDirectory:")
     }
     impl NSURLSelectors for Sel {}
 }
@@ -25,7 +26,12 @@ impl NSURL {
             let uninitialized = Self::class().alloc(pool);
             Self::nullable(Self::perform(uninitialized, Sel::initWithString_(), pool, (str,))).assume_retained()
         }
-
+    }
+    pub fn initFileURLWithPath_isDirectory(path: &NSString, isDirectory: bool, pool: &ActiveAutoreleasePool) -> StrongCell<NSURL> {
+        unsafe {
+            let raw = NSURL::perform(Self::class().alloc(pool), Sel::initFileURLWithPath_isDirectory(), pool, (path,isDirectory,));
+            NSURL::assume_nonnil(raw).assume_retained()
+        }
     }
     pub fn absoluteString(self: &NSURL, pool: &ActiveAutoreleasePool) -> Option<StrongCell<NSString>> {
         unsafe {
@@ -45,4 +51,12 @@ impl NSURL {
     let pool = unsafe{ AutoreleasePool::new() };
     let url = NSURL::from_string(objc_nsstring!("https://sealedabstract.com"), &pool).unwrap();
     assert!(url.description(&pool).to_str(&pool).starts_with("https://sealedabstract.com"));
+}
+
+#[test] fn from_path() {
+    autoreleasepool(|pool| {
+        let str = objc_nsstring!("/tmp");
+        let url = NSURL::initFileURLWithPath_isDirectory(str, true,pool);
+        println!("{}",url);
+    });
 }
