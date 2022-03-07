@@ -28,6 +28,8 @@ The following cargo features are currently supported, and provide at least some 
 * `nsdata`
 * `nsdictionary`
 * `nsvalue`
+* `nsrange`
+* `nsdate`
 
 ## Runtime
 
@@ -36,6 +38,8 @@ The following cargo features are currently supported, and provide at least some 
 ## System
 * `nsthread`
 * `nsnotification`
+* `nsrunloop`
+
 
 ## HTTP and URLs
 * `nsurl`

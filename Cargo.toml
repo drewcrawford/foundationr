@@ -19,7 +19,7 @@ nsrange = []
 nsrunloop = ["nsdate"]
 nsdate = []
 
-all = ["nsurl","nsdata","nsurlresponse","nsurlrequest","nsurlsession","nsthread","nsdictionary","nsvalue","nscopying", "nsnotification"]
+all = ["nsurl","nsdata","nsurlresponse","nsurlrequest","nsurlsession","nsthread","nsdictionary","nsvalue","nscopying", "nsnotification","nsrange","nsrunloop","nsdate"]
 [dependencies]
 objr = {git = "https://github.com/drewcrawford/objr.git"}
 blocksr = {git = "https://github.com/drewcrawford/blocksr.git"}
