@@ -29,22 +29,22 @@ impl NSMutableURLRequest {
     pub fn from_url(url: &NSURL, pool: &ActiveAutoreleasePool) -> StrongMutCell<Self> {
         unsafe{
             let uninitialized = NSMutableURLRequest::class().alloc(pool);
-            Self::assume_nonnil(Self::perform(uninitialized, Sel::initWithURL_(), pool, (url,))).assume_retained().assume_mut()
+            Self::assume_nonnil(Self::perform(uninitialized, Sel::initWithURL_(), pool, (url.assume_nonmut_perform(),))).assume_retained().assume_mut()
         }
     }
     pub fn setValueForHTTPHeaderField(&mut self,value:Option<&NSString>,header_field: &NSString, pool: &ActiveAutoreleasePool) {
         unsafe{
-            Self::perform_primitive(self, Sel::setValue_forHTTPHeaderField(), pool, (value.as_ptr(), header_field))
+            Self::perform_primitive(self, Sel::setValue_forHTTPHeaderField(), pool, (value.as_ptr().assume_nonmut_perform(), header_field.assume_nonmut_perform()))
         }
     }
     pub fn setHTTPMethod(&mut self, value: &NSString, pool: &ActiveAutoreleasePool) {
         unsafe {
-            Self::perform_primitive(self, Sel::setHTTPMethod_(), pool, (value,))
+            Self::perform_primitive(self, Sel::setHTTPMethod_(), pool, (value.assume_nonmut_perform(),))
         }
     }
     pub fn setHTTPBody(&mut self, value: &NSData, pool: &ActiveAutoreleasePool) {
         unsafe{
-            Self::perform_primitive(self, Sel::setHTTPBody_(), pool, (value,))
+            Self::perform_primitive(self, Sel::setHTTPBody_(), pool, (value.assume_nonmut_perform(),))
         }
     }
 

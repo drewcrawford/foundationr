@@ -29,13 +29,13 @@ impl<Key: NSCopying + 'static + Debug,Value: ObjcInstance + 'static> NSDictionar
             let s = Self::class().alloc(pool);
             let key_ptr: *const Key = std::mem::transmute(keys.as_ptr());
             let value_ptr: *const Value = std::mem::transmute(objects.as_ptr());
-            let s = Self::perform(s,Sel::initWithObjects_forKeys_count(), pool, (value_ptr, key_ptr, objects.len() as NSUInteger));
+            let s = Self::perform(s,Sel::initWithObjects_forKeys_count(), pool, (value_ptr.assume_nonmut_perform(), key_ptr.assume_nonmut_perform(), objects.len() as NSUInteger));
             Self::assume_nonnil(s).assume_retained()
         }
     }
     pub fn objectForKey(&self, key: &Key, pool: &ActiveAutoreleasePool) -> Option<StrongCell<Value>> {
         unsafe {
-            let ptr = Self::perform_autorelease_to_retain(self.assume_nonmut_perform(), Sel::objectForKey_(), pool, (key,));
+            let ptr = Self::perform_autorelease_to_retain(self.assume_nonmut_perform(), Sel::objectForKey_(), pool, (key.assume_nonmut_perform(),));
             Value::nullable(ptr).assume_retained()
         }
     }

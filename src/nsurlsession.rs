@@ -50,7 +50,7 @@ impl NSURLSession {
             completion_handler(completion_arg)
         })};
         unsafe {
-            let task = Self::perform_autorelease_to_retain(self.assume_nonmut_perform(),Sel::dataTaskWithRequest_completionHandler(), pool, (request, &block));
+            let task = Self::perform_autorelease_to_retain(self.assume_nonmut_perform(),Sel::dataTaskWithRequest_completionHandler(), pool, (request.assume_nonmut_perform(), &block));
             NSURLSessionDataTask::assume_nonnil(task).assume_retained().assume_mut()
         }
     }
@@ -69,7 +69,7 @@ impl NSURLSession {
             completion_handler(completion_arg)
         })};
         unsafe {
-            let task = Self::perform_autorelease_to_retain(self.assume_nonmut_perform(), Sel::downloadTaskWithRequest_completionHandler(), pool, (request,&block));
+            let task = Self::perform_autorelease_to_retain(self.assume_nonmut_perform(), Sel::downloadTaskWithRequest_completionHandler(), pool, (request.assume_nonmut_perform(),&block));
             NSURLSessionDownloadTask::assume_nonnil(task).assume_retained().assume_mut()
         }
     }

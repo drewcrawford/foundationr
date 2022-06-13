@@ -28,7 +28,7 @@ impl NSData {
     /// or will take some other step (usually, copying) the object into a longer lifetime.
     pub unsafe fn from_borrowed_bytes<'a>(data: &'a [u8], pool: &ActiveAutoreleasePool) -> StrongLifetimeCell<'a,NSData> {
         let uninitialized = NSData::class().alloc(pool);
-        let init = Self::perform(uninitialized, Sel::initWithBytesNoCopy_length_freeWhenDone(), pool, (data.as_ptr(), data.len() as NSUInteger, false));
+        let init = Self::perform(uninitialized, Sel::initWithBytesNoCopy_length_freeWhenDone(), pool, (data.as_ptr().assume_nonmut_perform(), data.len() as NSUInteger, false));
         Self::assume_nonnil(init).assume_retained_limited()
     }
 
@@ -41,7 +41,7 @@ impl NSData {
             let block = Deallocator::new(move |_ptr,_length| {
                 std::mem::drop(data);
             });
-            let r = Self::perform(uninitialized, Sel::initWithBytesNoCopy_length_deallocator(), pool, (ptr, len, &block));
+            let r = Self::perform(uninitialized, Sel::initWithBytesNoCopy_length_deallocator(), pool, (ptr.assume_nonmut_perform(), len, &block));
             NSData::assume_nonnil(r).assume_retained()
         }
 

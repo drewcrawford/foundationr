@@ -21,7 +21,7 @@ impl NSRunLoop {
         }
     }
     pub fn runUntilDate(&self, date: &NSDate, pool: &ActiveAutoreleasePool) {
-        unsafe{Self::perform_primitive(self.assume_nonmut_perform(), Sel::runUntilDate_(), pool, (date,))}
+        unsafe{Self::perform_primitive(self.assume_nonmut_perform(), Sel::runUntilDate_(), pool, (date.assume_nonmut_perform(),))}
     }
 }
 
