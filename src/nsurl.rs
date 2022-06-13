@@ -25,18 +25,18 @@ impl NSURL {
     pub fn from_string(str: &super::NSString, pool: &ActiveAutoreleasePool) -> Option<StrongCell<NSURL>> {
         unsafe{
             let uninitialized = Self::class().alloc(pool);
-            Self::nullable(Self::perform(uninitialized, Sel::initWithString_(), pool, (str,))).assume_retained()
+            Self::nullable(Self::perform(uninitialized, Sel::initWithString_(), pool, (str.assume_nonmut_perform(),))).assume_retained()
         }
     }
     pub fn initFileURLWithPath_isDirectory(path: &NSString, isDirectory: bool, pool: &ActiveAutoreleasePool) -> StrongCell<NSURL> {
         unsafe {
-            let raw = NSURL::perform(Self::class().alloc(pool), Sel::initFileURLWithPath_isDirectory(), pool, (path,isDirectory,));
+            let raw = NSURL::perform(Self::class().alloc(pool), Sel::initFileURLWithPath_isDirectory(), pool, (path.assume_nonmut_perform(),isDirectory,));
             NSURL::assume_nonnil(raw).assume_retained()
         }
     }
     pub fn initFileURLWithPath(path: &NSString, pool: &ActiveAutoreleasePool) -> StrongCell<NSURL> {
         unsafe {
-            let raw = NSURL::perform(Self::class().alloc(pool), Sel::initFileURLWithPath_(), pool, (path,));
+            let raw = NSURL::perform(Self::class().alloc(pool), Sel::initFileURLWithPath_(), pool, (path.assume_nonmut_perform(),));
             NSURL::assume_nonnil(raw).assume_retained()
         }
     }

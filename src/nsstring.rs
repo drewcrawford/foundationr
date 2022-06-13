@@ -27,7 +27,7 @@ impl NSStringExtension for NSString {
             let alloc = Self::class().alloc(pool);
 
             let encoding: NSUInteger = 4;
-            let raw = Self::perform(alloc, Sel::initWithBytesNoCopy_length_encoding_freeWhenDone(), &pool, (bytes, len,encoding,false ));
+            let raw = Self::perform(alloc, Sel::initWithBytesNoCopy_length_encoding_freeWhenDone(), &pool, (bytes.assume_nonmut_perform(), len,encoding,false ));
             //we assume this will work since it's str already
             Self::assume_nonnil(raw).assume_retained_limited()
         }
