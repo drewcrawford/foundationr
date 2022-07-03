@@ -1,5 +1,6 @@
+
 use objr::bindings::*;
-use std::os::raw::c_int;
+use std::os::raw::{c_int, c_ulong};
 use crate::NSUInteger;
 objc_class! {
     pub struct NSNumber {
@@ -10,6 +11,7 @@ objc_class! {
 objc_selector_group! {
     trait NSNumberSelectors {
         @selector("initWithInt:")
+        @selector("initWithUnsignedLong:")
         @selector("unsignedIntegerValue")
     }
     impl NSNumberSelectors for Sel {}
@@ -24,6 +26,13 @@ impl NSNumber {
             Self::assume_nonnil(s).assume_retained()
         }
     }
+    pub fn with_ulong(v: c_ulong, pool: &ActiveAutoreleasePool) -> StrongCell<Self> {
+        unsafe {
+            let s = Self::class().alloc(pool);
+            let s = Self::perform(s,Sel::initWithUnsignedLong_(), pool, (v,));
+            Self::assume_nonnil(s).assume_retained()
+        }
+    }
     pub fn unsignedIntegerValue(&self, pool: &ActiveAutoreleasePool) -> NSUInteger {
         unsafe {
             Self::perform_primitive(self.assume_nonmut_perform(), Sel::unsignedIntegerValue(), pool, ())
@@ -34,6 +43,9 @@ impl NSNumber {
 #[test] fn test() {
     autoreleasepool(|pool| {
         let s = NSNumber::with_int(5, pool);
+        assert_eq!(s.unsignedIntegerValue(pool),5);
+
+        let s = NSNumber::with_ulong(5,pool);
         assert_eq!(s.unsignedIntegerValue(pool),5);
     })
 }
