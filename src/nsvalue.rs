@@ -13,6 +13,7 @@ objc_selector_group! {
         @selector("initWithInt:")
         @selector("initWithUnsignedLong:")
         @selector("unsignedIntegerValue")
+        @selector("initWithBool:")
     }
     impl NSNumberSelectors for Sel {}
 }
@@ -33,6 +34,13 @@ impl NSNumber {
             Self::assume_nonnil(s).assume_retained()
         }
     }
+    pub fn with_bool(b: bool, pool: &ActiveAutoreleasePool) -> StrongCell<Self> {
+        unsafe {
+            let s = Self::class().alloc(pool);
+            let s = Self::perform(s,Sel::initWithBool_(), pool, (b,));
+            Self::assume_nonnil(s).assume_retained()
+        }
+    }
     pub fn unsignedIntegerValue(&self, pool: &ActiveAutoreleasePool) -> NSUInteger {
         unsafe {
             Self::perform_primitive(self.assume_nonmut_perform(), Sel::unsignedIntegerValue(), pool, ())
@@ -47,5 +55,8 @@ impl NSNumber {
 
         let s = NSNumber::with_ulong(5,pool);
         assert_eq!(s.unsignedIntegerValue(pool),5);
+
+        let s = NSNumber::with_bool(true, pool);
+        assert_eq!(s.unsignedIntegerValue(pool), 1);
     })
 }
