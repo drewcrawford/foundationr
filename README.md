@@ -1,3 +1,5 @@
+![logo](art/logo.png)
+
 # Drew's Foundation bindings for Rust
 
 This library binds (some subset of) Apple Foundation to Rust.  It may be compared to [objc-foundation](https://crates.io/crates/objc-foundation/0.1.1/dependencies)
@@ -9,6 +11,7 @@ of foundationr:
 * Zero-cost abstractions.  Calling this library should perform identically to calling Foundation from Swift/ObjC applications.
     * Most of the magic happens in [objr](https://github.com/drewcrawford/objr) or [blocksr](https://github.com/drewcrawford/blocksr)
       which provide cutting-edge high-performance primitives which are used here extensively.
+* Fast enumeration.  This avoids the need to use the ObjC runtime to do something like enumerate many objects.
 * Safe APIs.  Where possible APIs are designed with safe abstractions to provide familiar guarantees to Rust developers
 * Low-level.  These bindings assume familiarity with Foundation APIs and are not documented separately.
 * Modular.  Foundation is a big library; individual features are gated with feature flags
@@ -29,6 +32,8 @@ The following cargo features are currently supported, and provide at least some 
 * `nsvalue`
 * `nsrange`
 * `nsdate`
+* `nsnenumerator`
+* `nsarray`
 
 ## Runtime
 

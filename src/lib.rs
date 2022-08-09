@@ -1,3 +1,5 @@
+extern crate core;
+
 /**
 # Drew's Foundation bindings for Rust
 
@@ -27,6 +29,7 @@ The following cargo features are currently supported, and provide at least some 
 * `nsstring`
 * `nsdata`
 * `nsdictionary`
+* `nsarray`
 * `nsvalue`
 * `nsrange`
 * `nsdate`
@@ -78,6 +81,10 @@ mod nsrange;
 mod nsrunloop;
 #[cfg(feature="nsdate")]
 mod nsdate;
+#[cfg(feature="nsarray")]
+mod nsarray;
+#[cfg(feature="nsenumerator")]
+mod nsenumerator;
 
 
 pub use objr::foundation::*;

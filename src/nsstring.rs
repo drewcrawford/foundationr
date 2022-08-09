@@ -1,5 +1,4 @@
 use std::ffi::OsStr;
-use std::path::Path;
 use objr::bindings::*;
 use crate::NSUInteger;
 
@@ -81,6 +80,7 @@ impl NSStringExtension for NSString {
 }
 
 #[test] fn os_str() {
+    use std::path::Path;
     let path = Path::new("test my på†h");
     let os_str = path.as_os_str();
     autoreleasepool(|pool| {
