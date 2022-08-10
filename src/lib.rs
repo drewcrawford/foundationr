@@ -125,4 +125,4 @@ pub use nsarray::NSArray;
 #[cfg(feature="nsenumerator")]
 pub use nsenumerator::{NSFastEnumeration,FastEnumerator};
 
-pub use nsgeometry::NSPoint;
+pub use nsgeometry::{NSPoint,NSRect};
