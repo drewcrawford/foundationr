@@ -85,6 +85,7 @@ mod nsdate;
 mod nsarray;
 #[cfg(feature="nsenumerator")]
 mod nsenumerator;
+mod nsgeometry;
 
 
 pub use objr::foundation::*;
@@ -123,3 +124,5 @@ pub use nsdate::NSDate;
 pub use nsarray::NSArray;
 #[cfg(feature="nsenumerator")]
 pub use nsenumerator::{NSFastEnumeration,FastEnumerator};
+
+pub use nsgeometry::NSPoint;

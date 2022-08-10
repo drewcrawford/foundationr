@@ -25,3 +25,4 @@ all = ["nsurl","nsdata","nsurlresponse","nsurlrequest","nsurlsession","nsthread"
 [dependencies]
 objr = {git = "https://github.com/drewcrawford/objr.git"}
 blocksr = {git = "https://github.com/drewcrawford/blocksr.git"}
+coregraphicsr = {git = "https://github.com/drewcrawford/coregraphicsr"}
