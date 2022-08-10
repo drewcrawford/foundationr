@@ -67,7 +67,7 @@ enum EnumerationResult<Item> {
 impl<'e, Enumerated: NSFastEnumeration> FastEnumerator<'e, Enumerated> {
     fn fast_path(&mut self) -> EnumerationResult<&'e Enumerated::Element> {
         if self.stack_head < self.stack_tail {
-            let p = unsafe{self.state.items_ptr.add(self.stack_head)};
+            let p = unsafe{* self.state.items_ptr.add(self.stack_head)};
             //safety: API guarantee
             self.stack_head += 1;
             EnumerationResult::Item(unsafe{std::mem::transmute(p)})

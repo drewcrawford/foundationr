@@ -82,6 +82,8 @@ impl<Element: Arguable + 'static> NSFastEnumeration for &NSArray<Element> {
         let mut elements = Vec::new();
         for element in f.iter(pool) {
             elements.push(element);
+            println!("element description {}",element.description(pool).to_str(pool));
+
         }
         assert_eq!(elements.len(), 4);
         assert_eq!(f.count(pool), 4);
