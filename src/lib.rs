@@ -119,3 +119,7 @@ pub use nsrange::NSRange;
 pub use nsrunloop::NSRunLoop;
 #[cfg(feature="nsdate")]
 pub use nsdate::NSDate;
+#[cfg(feature="nsarray")]
+pub use nsarray::NSArray;
+#[cfg(feature="nsenumerator")]
+pub use nsenumerator::{NSFastEnumeration,FastEnumerator};
