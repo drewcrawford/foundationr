@@ -98,7 +98,11 @@ impl<'e, Enumerated: NSFastEnumeration + Copy> Iterator for FastEnumerator<'e, E
                 self.stack_head = 0;
 
                 //safety: API guarantee
-                self.mutations_ptr_value = unsafe{*self.state.mutations_ptr};
+                //however, I have observed this to be null in cases where the array is empty.
+                //for that reason, we need to check for null.
+                if !self.state.mutations_ptr.is_null() {
+                    self.mutations_ptr_value = unsafe{*self.state.mutations_ptr};
+                }
                 match self.fast_path() {
                     EnumerationResult::Item(i) => {
                         Option::Some(i)
