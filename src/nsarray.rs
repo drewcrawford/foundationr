@@ -23,7 +23,7 @@ objc_selector_group! {
 }
 
 #[allow(non_snake_case)]
-impl<Element: Arguable + 'static> NSArray<Element> {
+impl<Element: ObjcInstance + 'static> NSArray<Element> {
     ///# Safety
     /// Consider use of [Self::with_slice] instead.
     /// `objects` must be valid to dereference and of the correct type and alignment

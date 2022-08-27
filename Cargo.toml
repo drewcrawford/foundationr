@@ -21,7 +21,7 @@ nsdate = []
 nsarray = ["nsenumerator"]
 nsenumerator = []
 
-all = ["nsurl","nsdata","nsurlresponse","nsurlrequest","nsurlsession","nsthread","nsdictionary","nsvalue","nscopying", "nsnotification","nsrange","nsrunloop","nsdate","nsarray"]
+all = ["nsurl","nsdata","nsurlresponse","nsurlrequest","nsurlsession","nsthread","nsdictionary","nsvalue","nscopying", "nsnotification","nsrange","nsrunloop","nsdate","nsarray","nsenumerator"]
 [dependencies]
 objr = {git = "https://github.com/drewcrawford/objr.git"}
 blocksr = {git = "https://github.com/drewcrawford/blocksr.git"}
