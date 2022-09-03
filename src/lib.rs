@@ -33,6 +33,7 @@ The following cargo features are currently supported, and provide at least some 
 * `nsvalue`
 * `nsrange`
 * `nsdate`
+* `nsattributedstring`
 
 ## Runtime
 

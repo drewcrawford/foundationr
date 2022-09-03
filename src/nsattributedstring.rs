@@ -33,7 +33,10 @@ objc_class! {
 }
 #[allow(non_snake_case)]
 impl NSAttributedString {
-    fn withStringAttributes(string: &NSString, attributes: &NSDictionary<NSAttributedStringKey, NSObject>, pool: &ActiveAutoreleasePool) -> StrongCell<Self> {
+    ///```objc
+    /// - (instancetype)initWithString:(NSString *)str attributes:(nullable NSDictionary<NSAttributedStringKey, id> *)attrs;
+    /// ```
+    pub fn withStringAttributes(string: &NSString, attributes: &NSDictionary<NSAttributedStringKey, NSObject>, pool: &ActiveAutoreleasePool) -> StrongCell<Self> {
         unsafe {
             let alloc = Self::class().alloc(pool);
             let raw: *const Self = Self::perform_autorelease_to_retain(alloc, Sel::initWithString_attributes(), pool,(string.assume_nonmut_perform(), attributes.assume_nonmut_perform()));

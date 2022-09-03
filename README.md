@@ -34,6 +34,7 @@ The following cargo features are currently supported, and provide at least some 
 * `nsdate`
 * `nsnenumerator`
 * `nsarray`
+* `nsattributedstring`
 
 ## Runtime
 
