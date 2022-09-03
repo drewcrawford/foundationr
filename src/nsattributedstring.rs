@@ -36,7 +36,7 @@ impl NSAttributedString {
     ///```objc
     /// - (instancetype)initWithString:(NSString *)str attributes:(nullable NSDictionary<NSAttributedStringKey, id> *)attrs;
     /// ```
-    pub fn withStringAttributes(string: &NSString, attributes: &NSDictionary<NSAttributedStringKey, NSObject>, pool: &ActiveAutoreleasePool) -> StrongCell<Self> {
+    pub fn withStringAttributes(string: &NSString, attributes: Option<&NSDictionary<NSAttributedStringKey, NSObject>>, pool: &ActiveAutoreleasePool) -> StrongCell<Self> {
         unsafe {
             let alloc = Self::class().alloc(pool);
             let raw: *const Self = Self::perform_autorelease_to_retain(alloc, Sel::initWithString_attributes(), pool,(string.assume_nonmut_perform(), attributes.assume_nonmut_perform()));
@@ -56,7 +56,7 @@ objc_selector_group! {
     autoreleasepool(|pool| {
         let string = NSString::with_str_copy("Hello, world!", pool);
         let attributes = NSDictionary::withObjectsForKeys(&[], &[], pool);
-        let attributed_string = NSAttributedString::withStringAttributes(&string, &attributes, pool);
+        let attributed_string = NSAttributedString::withStringAttributes(&string, Some(&attributes), pool);
         println!("{}", attributed_string);
     })
 }
