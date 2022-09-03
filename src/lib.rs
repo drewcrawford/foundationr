@@ -1,7 +1,7 @@
-extern crate core;
-
-/**
+/*!
 # Drew's Foundation bindings for Rust
+
+![art](../../../art/logo.png)
 
 This library binds (some subset of) Apple Foundation to Rust.  It may be compared to [objc-foundation](https://crates.io/crates/objc-foundation/0.1.1/dependencies)
 and [cocoa-foundation](https://crates.io/crates/cocoa-foundation).
@@ -50,9 +50,13 @@ The following cargo features are currently supported, and provide at least some 
 * `nsurlrequest`
 * `nsurlsession`
 
+## Fonts
+* `nsfontdescriptor`
+
 ## Other
 * `all` - enables all other features
-*/
+ */
+
 #[cfg(feature="nsurlsession")]
 mod nsurlsession;
 #[cfg(feature="nsurlrequest")]
@@ -86,6 +90,8 @@ mod nsarray;
 #[cfg(feature="nsenumerator")]
 mod nsenumerator;
 mod nsgeometry;
+#[cfg(feature = "nsattributedstring")]
+mod nsattributedstring;
 
 
 pub use objr::foundation::*;
@@ -124,5 +130,7 @@ pub use nsdate::NSDate;
 pub use nsarray::NSArray;
 #[cfg(feature="nsenumerator")]
 pub use nsenumerator::{NSFastEnumeration,FastEnumerator};
+#[cfg(feature="nsattributedstring")]
+pub use nsattributedstring::*;
 
 pub use nsgeometry::{NSPoint,NSRect};

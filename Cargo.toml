@@ -20,8 +20,10 @@ nsrunloop = ["nsdate"]
 nsdate = []
 nsarray = ["nsenumerator"]
 nsenumerator = []
+nsfontdescriptor = []
+nsattributedstring = ["nsdictionary"]
 
-all = ["nsurl","nsdata","nsurlresponse","nsurlrequest","nsurlsession","nsthread","nsdictionary","nsvalue","nscopying", "nsnotification","nsrange","nsrunloop","nsdate","nsarray","nsenumerator"]
+all = ["nsurl","nsdata","nsurlresponse","nsurlrequest","nsurlsession","nsthread","nsdictionary","nsvalue","nscopying", "nsnotification","nsrange","nsrunloop","nsdate","nsarray","nsenumerator","nsfontdescriptor","nsattributedstring"]
 [dependencies]
 objr = {git = "https://github.com/drewcrawford/objr.git"}
 blocksr = {git = "https://github.com/drewcrawford/blocksr.git"}
