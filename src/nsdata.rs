@@ -13,12 +13,14 @@ objc_selector_group! {
         @selector("initWithBytesNoCopy:length:deallocator:")
         @selector("length")
         @selector("bytes")
+        @selector("writeToFile:atomically:")
     }
     impl NSDataSelectors for Sel {}
 }
 
 blocksr::once_escaping!(Deallocator(ptr: *const std::ffi::c_void, length: NSUInteger) -> ());
 unsafe impl Arguable for &Deallocator {}
+#[allow(non_snake_case)]
 impl NSData {
     ///This creates a NSData by borrowing the data argument.
     ///
@@ -59,6 +61,12 @@ impl NSData {
             std::slice::from_raw_parts(ptr,length as usize)
         }
     }
+    pub fn writeToFileAtomically(&self, path: &NSString, atomically: bool, pool: &ActiveAutoreleasePool) -> bool {
+        unsafe {
+            let r: bool = Self::perform_primitive(self.assume_nonmut_perform(), Sel::writeToFile_atomically(), &pool, (path.assume_nonmut_perform(), atomically));
+            r
+        }
+    }
 }
 
 #[test] fn with_borrowed_data() {
@@ -79,4 +87,12 @@ impl NSData {
     let pool = unsafe{ AutoreleasePool::new() };
     let data = NSData::from_boxed_bytes(data, &pool);
     println!("data {}",data);
+}
+
+#[test] fn write_to_file() {
+    let data = "My test string".to_owned().into_boxed_str().into_boxed_bytes();
+    let pool = unsafe{ AutoreleasePool::new() };
+    let data = NSData::from_boxed_bytes(data, &pool);
+    let path = NSString::with_str_copy("test.txt", &pool);
+    data.writeToFileAtomically(&path, true, &pool);
 }
