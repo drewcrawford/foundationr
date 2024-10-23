@@ -25,6 +25,6 @@ nsattributedstring = ["nsdictionary"]
 
 all = ["nsurl","nsdata","nsurlresponse","nsurlrequest","nsurlsession","nsthread","nsdictionary","nsvalue","nscopying", "nsnotification","nsrange","nsrunloop","nsdate","nsarray","nsenumerator","nsfontdescriptor","nsattributedstring"]
 [dependencies]
-objr = {git = "https://github.com/drewcrawford/objr.git"}
-blocksr = {git = "https://github.com/drewcrawford/blocksr.git"}
+objr = "1"
+blocksr = "1"
 coregraphicsr = {git = "https://github.com/drewcrawford/coregraphicsr"}
